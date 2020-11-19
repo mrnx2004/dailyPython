@@ -37,10 +37,13 @@ class ConvertCamel:
                 # 继续解析dict对象
                 new_value = ConvertCamel.deal_with_dict_object(value)
                 new_dict[new_key] = new_value
+                continue
             if isinstance(value, bool):
                 new_dict[new_key] = value
+                continue
             if isinstance(value, numbers.Number):
                 new_dict[new_key] = value
+                continue
         print(json.dumps(new_dict, indent=2))
 
     @staticmethod
@@ -54,8 +57,16 @@ class ConvertCamel:
             if isinstance(value, dict):
                 new_value = ConvertCamel.deal_with_dict_object(value)
                 new_dict[new_key] = new_value
+                continue
             if isinstance(value, bool):
                 new_dict[new_key] = value
+                continue
+            if isinstance(value, list):
+                temp_list = list()
+                for element in value:
+                    temp_list.append(ConvertCamel.deal_with_dict_object(element))
+                new_dict[new_key] = temp_list
+
         return new_dict
 
 
